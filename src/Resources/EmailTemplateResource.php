@@ -218,49 +218,51 @@ class EmailTemplateResource extends Resource
                                                 Grid::make(['default' => 1])
                                                         ->schema(
                                                                 [
-                                                                        TextInput::make('subject')
-                                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.subject'))
-                                                                                ->maxLength(191),
+                                                        TextInput::make('subject')
+                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.subject'))
+                                                                ->maxLength(191),
 
-                                                                        TextInput::make('preheader')
-                                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.header'))
-                                                                                ->hint(__('vb-email-templates::email-templates.form-fields-labels.header-hint'))
-                                                                                ->maxLength(191),
+                                                        TextInput::make('preheader')
+                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.header'))
+                                                                ->hint(__('vb-email-templates::email-templates.form-fields-labels.header-hint'))
+                                                                ->maxLength(191),
 
-                                                                        TextInput::make('title')
-                                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.title'))
-                                                                                ->hint(__('vb-email-templates::email-templates.form-fields-labels.title-hint'))
-                                                                                ->maxLength(191),
+                                                        TextInput::make('title')
+                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.title'))
+                                                                ->hint(__('vb-email-templates::email-templates.form-fields-labels.title-hint'))
+                                                                ->maxLength(191),
 
-                                                                        TinyEditor::make('content')
-                                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.content'))
-                                                                                ->profile('default')
-                                                                                ->default("<p>Dear ##user.first_name##, </p>"),
+                                                        TinyEditor::make('content')
+                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.content'))
+                                                                ->profile('full')
+                                                                ->showMenuBar()
+                                                                ->default("<p>Dear ##user.first_name##, </p>"),
 
-                                                                        Radio::make('logo_type')
-                                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.logo-type'))
-                                                                                ->options([
-                                                                                        'browse_another' => __('vb-email-templates::email-templates.form-fields-labels.browse-another'),
-                                                                                        'paste_url'      => __('vb-email-templates::email-templates.form-fields-labels.paste-url'),
-                                                                                ])
-                                                                                ->default('browse_another')
-                                                                                ->inline()
-                                                                                ->live(),
+                                                        Radio::make('logo_type')
+                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.logo-type'))
+                                                                ->options([
+                                                                        'browse_another' => __('vb-email-templates::email-templates.form-fields-labels.browse-another'),
+                                                                        'paste_url'      => __('vb-email-templates::email-templates.form-fields-labels.paste-url'),
+                                                                ])
+                                                                ->default('browse_another')
+                                                                ->inline()
+                                                                ->live(),
 
-                                                                        FileUpload::make('logo')
-                                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.logo'))
-                                                                                ->hint(__('vb-email-templates::email-templates.form-fields-labels.logo-hint'))
-                                                                                ->hidden(fn(Get $get) => $get('logo_type') !== 'browse_another')
-                                                                                ->directory(config('filament-email-templates.browsed_logo'))
-                                                                                ->image(),
+                                                        FileUpload::make('logo')
+                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.logo'))
+                                                                ->hint(__('vb-email-templates::email-templates.form-fields-labels.logo-hint'))
+                                                                ->hidden(fn(Get $get) => $get('logo_type') !== 'browse_another')
+                                                                ->directory(config('filament-email-templates.browsed_logo'))
+                                                                ->image(),
 
-                                                                        TextInput::make('logo_url')
-                                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.logo-url'))
-                                                                                ->hint(__('vb-email-templates::email-templates.form-fields-labels.logo-url-hint'))
-                                                                                ->placeholder('https://www.example.com/media/test.png')
-                                                                                ->hidden(fn(Get $get) => $get('logo_type') !== 'paste_url')
-                                                                                ->activeUrl()
-                                                                                ->maxLength(191),
+                                                        TextInput::make('logo_url')
+                                                                ->label(__('vb-email-templates::email-templates.form-fields-labels.logo-url'))
+                                                                ->hint(__('vb-email-templates::email-templates.form-fields-labels.logo-url-hint'))
+                                                                ->placeholder('https://www.example.com/media/test.png')
+                                                                ->hidden(fn(Get $get) => $get('logo_type') !== 'paste_url')
+                                                                //->activeUrl()
+                                                                ->url(fn(Get $get) => $get('logo_type') === 'paste_url' ? $get('logo_url') : null)
+                                                                ->maxLength(191),
                                                                 ]
                                                         ),
 
